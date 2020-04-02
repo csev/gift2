@@ -44,17 +44,17 @@ if (!empty($_POST)) {
   return;
 }
 
+$menu = new \Tsugi\UI\MenuSet();
+$menu->addLeft('Back', 'index.php');
+$menu->addRight('Edit Raw GIFT', 'old_configure.php');
+
 // View
 $OUTPUT->header();
 ?>
 <link rel="stylesheet" type="text/css" href="css/authoring.css">
 <?php
 $OUTPUT->bodyStart();
-$OUTPUT->topNav();
-echo('<div class="right">');
-echo('<a href="index.php" class="btn btn-default">Cancel</a> ');
-echo('<a href="old_configure.php" class="btn btn-default">Input GIFT Quiz Format</a> ');
-echo('</div>');
+$OUTPUT->topNav($menu);
 $OUTPUT->flashMessages();
 ?>
 <form method="post">

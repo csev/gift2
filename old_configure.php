@@ -29,7 +29,7 @@ if ( isset($_POST['gift']) ) {
     $LINK->setJson($gift);
     $_SESSION['success'] = 'Quiz updated';
     unset($_SESSION['gift']);
-    header( 'Location: '.addSession('index.php') ) ;
+    header( 'Location: '.addSession('configure.php') ) ;
     return;
 }
 
@@ -100,7 +100,7 @@ if ( isset($_SESSION['gift']) ) {
 
 // Clean up the JSON for presentation
 if ( $gift === false || strlen($gift) < 1 ) {
-    if ( $default != false && $lock == false && in_array($default, $files) ) {
+    if ( is_array($default) && $lock == false && in_array($default, $files) ) {
         $gift = file_get_contents($CFG->giftquizzes.'/'.$default);
         $_SESSION['success'] = 'Loaded quiz '.$default.' as default';
     } else {
@@ -108,10 +108,13 @@ if ( $gift === false || strlen($gift) < 1 ) {
     }
 }
 
+$menu = new \Tsugi\UI\MenuSet();
+$menu->addLeft('Back', 'index.php');
+
 // View
 $OUTPUT->header();
 $OUTPUT->bodyStart();
-$OUTPUT->topNav();
+$OUTPUT->topNav($menu);
 $OUTPUT->flashMessages();
 ?>
 <p>Be careful in making any changes if this quiz has submissions.</p>
@@ -142,12 +145,13 @@ The documentation for the GIFT format comes from
 <a href="https://docs.moodle.org/29/en/GIFT_format" target="_blank">Moodle Documentation</a>.
 </p>
 <form method="post" style="margin-left:5%;">
+<p>
+<input type="submit" class="btn btn-primary" value="Save">
+</p>
 <textarea name="gift" rows="25" cols="80" style="width:95%" >
 <?php echo(htmlent_utf8($gift)); ?>
 </textarea>
 <p>
-<input type="submit" value="Save">
-<input type=submit name=doCancel onclick="location='<?php echo(addSession('configure.php'));?>'; return false;" value="Cancel"></p>
 </form>
 <?php
 
