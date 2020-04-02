@@ -38,9 +38,9 @@ if (!empty($_POST)) {
   $_SESSION['success'] = 'Quiz updated';
   if ($_POST['save_quiz'] == "Save and Return") {
     header( 'Location: '.addSession('index.php') ) ;
-  } else {
-    header( 'Location: '.addSession('configure.php') ) ;
+    return;
   }
+  header( 'Location: '.addSession('configure.php') ) ;
   return;
 }
 
