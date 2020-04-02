@@ -133,25 +133,21 @@ if ( count($_POST) > 0 ) {
     return;
 }
 
+$menu = false;
+if ( $USER->instructor ) {
+    $menu = new \Tsugi\UI\MenuSet();
+    $menu->addLeft('Student Data', 'grades.php');
+    $menu->addRight('Edit Quiz Content', 'configure');
+    if ( $CFG->launchactivity ) {
+        $menu->addRight('Analytics', 'analytics');
+    }
+    $menu->addRight('Settings', '#', /* push */ false, SettingsForm::attr());
+}
+
 // View
 $OUTPUT->header();
 $OUTPUT->bodyStart();
-$OUTPUT->topNav();
-
-// Settings button and dialog
-
-// echo('<span style="position: fixed; right: 10px; top: 5px;">');
-echo('<span style="float: right; margin-bottom: 10px;">');
-if ( $USER->instructor ) {
-    echo('<a href="configure.php" class="btn btn-default">Edit Quiz Content</a> ');
-    if ( $CFG->launchactivity ) {
-        echo('<a href="analytics" class="btn btn-default">Launches</a> ');
-    }
-    echo('<a href="grades.php" target="_blank"><button class="btn btn-info">Grade detail</button></a> '."\n");
-}
-$OUTPUT->exitButton();
-SettingsForm::button();
-echo('</span>');
+$OUTPUT->topNav($menu);
 
 SettingsForm::start();
 SettingsForm::text('tries',__('The number of tries allowed for this quiz.  Leave blank or set to 1 for a single try.'));
