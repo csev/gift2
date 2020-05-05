@@ -36,6 +36,9 @@ if ( isset($_GET['quiz']) && $USER->instructor ) {
     $_SESSION['default_quiz'] = $_GET['quiz'];
 }
 
+// Load the settings from defaults on first launch
+$LAUNCH->link->settingsDefaultsFromCustom(array('tries', 'delay'));
+
 // Get the settings
 $max_str = Settings::linkGet('tries');
 $max_tries = 0;
@@ -133,11 +136,13 @@ if ( count($_POST) > 0 ) {
     return;
 }
 
+
 $menu = false;
 if ( $USER->instructor ) {
     $menu = new \Tsugi\UI\MenuSet();
     $menu->addLeft('Student Data', 'grades.php');
-    $menu->addRight('Edit Quiz Content', 'configure');
+    $menu->addRight('Edit Quiz', 'configure');
+    $menu->addRight('Export', 'export');
     if ( $CFG->launchactivity ) {
         $menu->addRight('Analytics', 'analytics');
     }
@@ -146,8 +151,14 @@ if ( $USER->instructor ) {
 
 // View
 $OUTPUT->header();
+?>
+<link rel="stylesheet" type="text/css" href="css/feedback.css">
+<?php
 $OUTPUT->bodyStart();
 $OUTPUT->topNav($menu);
+$OUTPUT->welcomeUserCourse();
+
+// Settings button and dialog
 
 SettingsForm::start();
 SettingsForm::text('tries',__('The number of tries allowed for this quiz.  Leave blank or set to 1 for a single try.'));
@@ -155,7 +166,6 @@ SettingsForm::text('delay',__('The number of seconds between retries.  Leave bla
 SettingsForm::dueDate();
 SettingsForm::end();
 
-$OUTPUT->welcomeUserCourse();
 
 $OUTPUT->flashMessages();
 
@@ -231,11 +241,9 @@ $(document).ready(function(){
                 TEMPLATES[type] = template;
             }
             $('#quiz').append(template(question));
+
+
         }
-
-        // Resize the window in case we made it too long in the authoring form
-        lti_frameResize($(document.body).height()+50);
-
     }).fail( function() { alert('Unable to load quiz data'); } );
 });
 </script>
