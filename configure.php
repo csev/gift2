@@ -85,6 +85,7 @@ if ($results_rows) {
         <option value="true_false_question">True/False Question</option>
         <option value="multiple_choice_question">Multiple Choice/Multiple Answer Question</option>
         <option value="short_answer_question">Short Answer Question</option>
+        <!-- <option value="essay_question">Essay Question</option> -->
       </select>
       <input type="submit" class="btn btn-default" name="save_quiz" value="Save">
       <input type="submit" class="btn btn-default" name="save_quiz" value="Save and Return">

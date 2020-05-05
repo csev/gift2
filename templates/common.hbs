@@ -33,14 +33,19 @@
       </div>
     </div>
   </div>
-  <!-- <label for="title_question{{count}}">{{__ 'Question Title:'}} (NOT IMPLEMENTED YET)</label> -->
-  <input type="text" class="form-control" name="title_question{{count}}" value="{{name}}" disabled style="display:none">
   <label for="text_question{{count}}">{{__ 'Question Text:'}}</label>
   <textarea rows="4" class="form-control" name="text_question{{count}}">{{question}}</textarea>
   <input type="hidden" name="type_question{{count}}" id="type_question{{count}}" value="{{type}}">
-  <label for="html_question{{count}}" class="right" style="display:none">
+  <label for="html_question{{count}}" class="right">
     <input type="checkbox" name="html_question{{count}}" {{#if html}}checked{{/if}}>
     Use HTML in question text
   </label>
   <div class="question-content-container" id="content_question{{count}}"></div>
+  <label for="title_question{{count}}">{{__ 'Question Title'}}
+      <i class="fa fa-info-circle" 
+         title="{{__ 'This is only used to track the question in the question source.  It is not shown to students.'}}"
+         onclick="alert('{{__ 'This is only used to track the question in the question source.  It is not shown to students.'}}');return false;"
+      ></i>
+  </label>
+  <input type="text" class="form-control" name="title_question{{count}}" value="{{name}}" >
 </div>

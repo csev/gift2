@@ -10,6 +10,7 @@ $("#question_type_select").change(function() {
       case "multiple_choice_question": addMultipleChoice(context); break; // Multiple choice and multiple answer are handled the same
       case "multiple_answers_question": addMultipleChoice(context); break; // Multiple choice and multiple answer are handled the same
       case "short_answer_question": addShortAnswer(context); break;
+      // case "essay_question": addEssay(context); break;
       default:
     }
 
@@ -48,6 +49,10 @@ function addQuestion(context) {
       context.PrettyType = "Short Answer";
       $('#quiz_content').append(tsugiHandlebarsRender('common', context))
       addShortAnswer(context);
+      break;
+    case "essay_question":
+      context.PrettyType = "Essay Answer";
+      $('#quiz_content').append(tsugiHandlebarsRender('common', context))
       break;
     default: console.log("unrecognized question type: " + context.type);
   }
